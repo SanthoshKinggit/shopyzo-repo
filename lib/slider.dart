@@ -375,14 +375,12 @@ class OnboardingContent extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Hero(
-            tag: image,
-            child: Image.asset(
-              image,
-              height: 300,
-              width: 300,
-              fit: BoxFit.cover,
-            ),
+          
+          Image.asset(
+            image,
+            height: 300,
+            width: 300,
+            fit: BoxFit.cover,
           ),
           Column(
             children: [
