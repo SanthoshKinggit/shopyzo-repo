@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:myapp/add.dart';
+import 'package:myapp/adjust.dart';
+import 'package:myapp/login.dart';
 import 'package:myapp/person.dart';
 import 'package:myapp/prime.dart';
 import 'dart:math' as math;

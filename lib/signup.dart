@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors, unnecessary_const
-
 import 'package:flutter/material.dart';
 import 'package:myapp/accountacreate.dart';
 import 'package:myapp/createac.dart';
@@ -16,302 +14,221 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    // Get screen size for responsive design
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.arrow_back_ios),
-                      ],
-                    ),
-                  ),
-                  Image.asset(
-                    'assets/logo/6333204.jpg',
-                    height: 222,
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen2()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 247, 247, 247),
-                      minimumSize: const Size(double.infinity, 56),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(33),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: screenHeight,
+              minWidth: screenWidth,
+            ),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.06, // Responsive horizontal padding
+                  vertical: screenHeight * 0.02, // Responsive vertical padding
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Back Button
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back_ios),
+                        onPressed: () => Navigator.pop(context),
                       ),
-                      elevation: 0,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.network(
-                          'https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png',
-                          height: 25,
-                        ),
-                        const Text(
-                          '    Continue with Facebook',
-                          style: TextStyle(
-                              fontFamily: 'Nunito',
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
 
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen2()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 247, 247, 247),
-                      minimumSize: const Size(double.infinity, 56),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(33),
-                      ),
-                      elevation: 0,
+                    // Logo
+                    SizedBox(height: screenHeight * 0.02),
+                    Image.asset(
+                      'assets/logo/6333204.jpg',
+                      height: screenHeight * 0.25,
+                      width: screenWidth * 0.5,
+                      fit: BoxFit.contain,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/logo/Google_Icons-09-512.webp',
-                          height: 25,
-                        ),
-                        const Text(
-                          '    Continue with Google',
-                          style: TextStyle(
-                              fontFamily: 'Nunito',
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen2()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 247, 247, 247),
-                      foregroundColor: Colors.white,
-                      minimumSize: const Size(double.infinity, 56),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(33),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/logo/apple-logo-transparent.png',
-                          height: 25,
-                        ),
-                        const Text(
-                          '    Continue with Apple',
-                          style: TextStyle(
-                              fontFamily: 'Nunito',
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
 
-                  Text(
-                    'or',
-                    style: TextStyle(
+                    SizedBox(height: screenHeight * 0.03),
+
+                    // Title
+                    Text(
+                      'Sign Up',
+                      style: TextStyle(
                         fontFamily: 'Nunito',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromARGB(255, 0, 0, 0)),
-                  ),
-                  const SizedBox(height: 20),
-                  // App Name
-                  Column(
-                    children: [
-                      // const SizedBox(height: 22),
-                      // // Subtitle
-                      // const Text(
-                      //   'A platform where you can manage your money',
-                      //   style: TextStyle(
-                      //     fontFamily: 'Nunito',
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.w500,
-                      //     color: Color.fromARGB(255, 91, 91, 91),
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      // ),
-                      const SizedBox(height: 0),
-
-                      // Login Button
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Homepage1()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primary,
-                          minimumSize: const Size(double.infinity, 56),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(33),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          'Sign In',
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
+                        fontSize: screenWidth * 0.07,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
-                      const SizedBox(height: 16),
-                      // Sign up Button
-                      // OutlinedButton(
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) => const SignUpScreen()),
-                      //     );
-                      //   },
-                      //   style: OutlinedButton.styleFrom(
-                      //     minimumSize: const Size(double.infinity, 56),
-                      //     shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(16),
-                      //     ),
-                      //     side: const BorderSide(
-                      //         color: Color(0xFF0A1F44), width: 1),
-                      //   ),
-                      //   child: const Text(
-                      //     'Sign up',
-                      //     style: TextStyle(
-                      //       fontFamily: 'Nunito',
-                      //       fontSize: 16,
-                      //       fontWeight: FontWeight.bold,
-                      //       color: Color(0xFF0A1F44),
-                      //     ),
-                      //   ),
-                      // ),
-                      // const SizedBox(height: 16),
-                      // const SizedBox(height: 15),
+                    ),
 
-                      // Center(
-                      //   child: Text(
-                      //     'or continue with',
-                      //     style: TextStyle(
-                      //       fontSize: 14,
-                      //       fontFamily: 'Nunito',
-                      //       fontWeight: FontWeight.w500,
-                      //       color: Color.fromARGB(255, 91, 91, 91),
-                      //     ),
-                      //   ),
-                      // ),
-                      // const SizedBox(height: 25),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: [
-                      //     Image.asset(
-                      //       'assets/logo/Google_Icons-09-512.webp',
-                      //       height: 40,
-                      //     ),
-                      //     Image.asset(
-                      //       'assets/logo/apple-logo-transparent.png',
-                      //       height: 32,
-                      //     ),
-                      //   ],
-                      // ),
-                      const SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Dont have an account?',
+                    SizedBox(height: screenHeight * 0.03),
+
+                    // Social Login Buttons
+                    _buildSocialLoginButton(
+                      context, 
+                      'https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png', 
+                      'Continue with Facebook',
+                      isNetwork: true,
+                    ),
+
+                    SizedBox(height: screenHeight * 0.01),
+
+                    _buildSocialLoginButton(
+                      context, 
+                      'assets/logo/Google_Icons-09-512.webp', 
+                      'Continue with Google',
+                    ),
+
+                    SizedBox(height: screenHeight * 0.01),
+
+                    _buildSocialLoginButton(
+                      context, 
+                      'assets/logo/apple-logo-transparent.png', 
+                      'Continue with Apple',
+                    ),
+
+                    SizedBox(height: screenHeight * 0.02),
+
+                    // Divider
+                    Row(
+                      children: [
+                        Expanded(child: Divider(color: Colors.grey)),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                          child: Text(
+                            'or',
                             style: TextStyle(
                               fontFamily: 'Nunito',
-                              color: Color.fromARGB(255, 26, 24, 24),
+                              fontSize: screenWidth * 0.04,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Homepage1()));
-                            },
-                            child: const Text(
-                              'Sign up',
-                              style: TextStyle(
-                                fontFamily: 'Nunito',
-                                color: primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
+                        Expanded(child: Divider(color: Colors.grey)),
+                      ],
+                    ),
+
+                    SizedBox(height: screenHeight * 0.02),
+
+                    // Sign In Button
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Homepage1()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primary,
+                        minimumSize: Size(screenWidth * 0.9, screenHeight * 0.07),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(33),
+                        ),
+                        elevation: 0,
                       ),
-                    ],
-                  ),
-                ],
+                      child: Text(
+                        'Sign In',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: screenWidth * 0.045,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: screenHeight * 0.02),
+
+                    // Sign Up Text
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Don\'t have an account?',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: screenWidth * 0.035,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Homepage1()),
+                            );
+                          },
+                          child: Text(
+                            'Sign up',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: screenWidth * 0.035,
+                              color: primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  // Helper method to build social login buttons
+  Widget _buildSocialLoginButton(
+    BuildContext context, 
+    String imagePath, 
+    String text, 
+    {bool isNetwork = false}
+  ) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen2()),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 247, 247, 247),
+        minimumSize: Size(screenWidth * 0.9, screenHeight * 0.07),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(33),
+        ),
+        elevation: 0,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          isNetwork 
+            ? Image.network(imagePath, height: screenHeight * 0.035)
+            : Image.asset(imagePath, height: screenHeight * 0.035),
+          SizedBox(width: screenWidth * 0.03),
+          Text(
+            text,
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: screenWidth * 0.04,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
     );
   }

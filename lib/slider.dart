@@ -1,11 +1,11 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, use_super_parameters
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/prime.dart';
 import 'package:myapp/signup.dart';
 
 class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({Key? key}) : super(key: key);
+
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -25,13 +25,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _scaleAnimation;
-  late Animation<double> _buttonScaleAnimation;
+  late Animation<double> buttonScaleAnimation;
   late Animation<double> _buttonFadeAnimation;
 
   final List<Map<String, dynamic>> _contents = [
     {
       'title': 'Order',
-      'description': 'The best app for finance. banking. & e-wallet today',
+      'description': 'The best app for finance, banking, & e-wallet today',
       'image': 'assets/logo/4676729-removebg-preview.png',
       'gradient': [
         Color.fromARGB(255, 255, 255, 255),
@@ -49,7 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     },
     {
       'title': 'Fast Payment',
-      'description': ' Mange finances eaasily with secure payments',
+      'description': 'Manage finances easily with secure payments',
       'image': 'assets/logo/6036950.jpg',
       'gradient': [
         Color.fromARGB(255, 255, 255, 255),
@@ -105,7 +105,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       curve: Curves.easeOutBack,
     ));
 
-    _buttonScaleAnimation = Tween<double>(
+    buttonScaleAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
     ).animate(CurvedAnimation(
@@ -164,189 +164,202 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
+    // Get screen size for responsive design
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark,
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        actions: [
-          ScaleTransition(
-            scale: _buttonScaleAnimation,
-            child: FadeTransition(
-              opacity: _buttonFadeAnimation,
-              child: TextButton(
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        LoginScreen(),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    },
-                    transitionDuration: Duration(milliseconds: 800),
-                  ),
-                ),
-                child: Text(
-                  'Skip',
-                  style: TextStyle(
-                    fontFamily: 'Nunito',
-                    color: _currentIndex == 0
-                        ? const Color.fromARGB(255, 255, 255, 255)
-                        : Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
+        body: AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: _contents[_currentIndex]['gradient'],
             ),
           ),
-        ],
-      ),
-      body: AnimatedContainer(
-        duration: Duration(milliseconds: 500),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: _contents[_currentIndex]['gradient'],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                      _fadeController.reset();
-                      _fadeController.forward();
-                      _slideController.reset();
-                      _slideController.forward();
-                      _scaleController.reset();
-                      _scaleController.forward();
-                    });
-                  },
-                  itemCount: _contents.length,
-                  itemBuilder: (context, index) {
-                    return FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: ScaleTransition(
-                          scale: _scaleAnimation,
-                          child: OnboardingContent(
-                            title: _contents[index]['title'],
-                            description: _contents[index]['description'],
-                            image: _contents[index]['image'],
-                            isDarkBackground: index != 0,
+          child: SafeArea(
+            child: Column(
+              children: [
+                // Skip Button
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.04,
+                    vertical: screenHeight * 0.01,
+                  ),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: ScaleTransition(
+                      scale: buttonScaleAnimation,
+                      child: FadeTransition(
+                        opacity: _buttonFadeAnimation,
+                        child: TextButton(
+                          onPressed: () => Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) =>
+                                  LoginScreen(),
+                              transitionsBuilder:
+                                  (context, animation, secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                              transitionDuration: Duration(milliseconds: 800),
+                            ),
+                          ),
+                          child: Text(
+                            'Skip',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              color: Colors.white,
+                              fontSize: screenWidth * 0.045,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-              ScaleTransition(
-                scale: _buttonScaleAnimation,
-                child: FadeTransition(
-                  opacity: _buttonFadeAnimation,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            _contents.length,
-                            (index) => TweenAnimationBuilder(
-                              duration: Duration(milliseconds: 300),
-                              tween: Tween<double>(
-                                begin: 0.0,
-                                end: _currentIndex == index ? 1.0 : 0.5,
-                              ),
-                              builder: (context, double value, child) {
-                                return Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 4),
-                                  height: 8,
-                                  width: _currentIndex == index ? 24 : 8,
-                                  decoration: BoxDecoration(
-                                    color: (_currentIndex == 0
-                                            ? const Color.fromARGB(
-                                                255, 255, 255, 255)
-                                            : Colors.white)
-                                        .withOpacity(value),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 32),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          height: 56,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(28),
-                              ),
-                              elevation: 8,
-                            ),
-                            onPressed: () {
-                              if (_currentIndex == _contents.length - 1) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        LoginScreen(),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
-                                      return FadeTransition(
-                                        opacity: animation,
-                                        child: child,
-                                      );
-                                    },
-                                    transitionDuration:
-                                        Duration(milliseconds: 800),
-                                  ),
-                                );
-                              } else {
-                                _animateToNextPage();
-                              }
-                            },
-                            child: Text(
-                              _currentIndex == _contents.length - 1
-                                  ? 'Get Started'
-                                  : 'Next',
-                              style: TextStyle(
-                                fontFamily: 'Nunito',
-                                color: _currentIndex == 0
-                                    ? const Color.fromARGB(255, 255, 255, 255)
-                                    : const Color.fromARGB(255, 255, 255, 255),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
+
+                // Onboarding Content
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                        _fadeController.reset();
+                        _fadeController.forward();
+                        _slideController.reset();
+                        _slideController.forward();
+                        _scaleController.reset();
+                        _scaleController.forward();
+                      });
+                    },
+                    itemCount: _contents.length,
+                    itemBuilder: (context, index) {
+                      return FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: ScaleTransition(
+                            scale: _scaleAnimation,
+                            child: OnboardingContent(
+                              title: _contents[index]['title'],
+                              description: _contents[index]['description'],
+                              image: _contents[index]['image'],
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                // Bottom Navigation and Button
+                ScaleTransition(
+                  scale: buttonScaleAnimation,
+                  child: FadeTransition(
+                    opacity: _buttonFadeAnimation,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.05,
+                        vertical: screenHeight * 0.03,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Page Indicator
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(
+                              _contents.length,
+                              (index) => TweenAnimationBuilder(
+                                duration: Duration(milliseconds: 300),
+                                tween: Tween<double>(
+                                  begin: 0.0,
+                                  end: _currentIndex == index ? 1.0 : 0.5,
+                                ),
+                                builder: (context, double value, child) {
+                                  return Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 4),
+                                    height: 8,
+                                    width: _currentIndex == index ? 24 : 8,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(value),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.03),
+
+                          // Next/Get Started Button
+                          SizedBox(
+                            width: screenWidth * 0.8,
+                            height: screenHeight * 0.07,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(28),
+                                ),
+                                elevation: 8,
+                              ),
+                              onPressed: () {
+                                if (_currentIndex == _contents.length - 1) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          LoginScreen(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        );
+                                      },
+                                      transitionDuration:
+                                          Duration(milliseconds: 800),
+                                    ),
+                                  );
+                                } else {
+                                  // Added the method to animate to the next page
+                                  _animateToNextPage();
+                                }
+                              },
+                              child: Text(
+                                _currentIndex == _contents.length - 1
+                                    ? 'Get Started'
+                                    : 'Next',
+                                style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  color: Colors.white,
+                                  fontSize: screenWidth * 0.05,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -358,56 +371,62 @@ class OnboardingContent extends StatelessWidget {
   final String title;
   final String description;
   final String image;
-  final bool isDarkBackground;
+  final double screenWidth;
+  final double screenHeight;
 
   const OnboardingContent({
     Key? key,
     required this.title,
     required this.description,
     required this.image,
-    required this.isDarkBackground,
+    required this.screenWidth,
+    required this.screenHeight,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+    return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          
+          // Responsive Image
           Image.asset(
             image,
-            height: 300,
-            width: 300,
-            fit: BoxFit.cover,
+            height: screenHeight * 0.35,
+            width: screenWidth * 0.7,
+            fit: BoxFit.contain,
           ),
-          Column(
-            children: [
-              SizedBox(height: 0),
-              Text(
-                textAlign: TextAlign.center,
-                title,
-                style: TextStyle(
-                  color: primary,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.5,
-                  fontFamily: 'Nunito',
+          SizedBox(height: screenHeight * 0.03),
+          
+          // Title and Description
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+            child: Column(
+              children: [
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: primary,
+                    fontSize: screenWidth * 0.08,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                    fontFamily: 'Nunito',
+                  ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                description,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: primary,
-                  fontSize: 26,
-                  height: 1.5,
-                  fontFamily: 'Nunito',
+                SizedBox(height: screenHeight * 0.02),
+                Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: primary,
+                    fontSize: screenWidth * 0.90,
+                    height: 1.5,
+                    fontFamily: 'Nunito',
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

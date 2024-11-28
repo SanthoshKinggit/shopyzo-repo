@@ -10,6 +10,7 @@ import 'package:myapp/choosemember.dart';
 import 'package:myapp/createac.dart';
 import 'package:myapp/edit.dart';
 import 'package:myapp/history.dart';
+import 'package:myapp/person.dart';
 import 'package:myapp/plan.dart';
 import 'package:myapp/prime.dart';
 import 'package:myapp/profile.dart';
@@ -956,7 +957,7 @@ class _PaymentAppState extends State<PaymentApp> {
             onPressed: () {
               // Implement logout logic here
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Homepage1()));
+                  MaterialPageRoute(builder: (context) => Homepage0()));
             },
             child: const Text(
               'Logout',
